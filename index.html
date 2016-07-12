@@ -141,18 +141,10 @@ Auto:
         gg1.refresh(((value-.5)*52.631));
             
                     }
-    else if(key=="/SmartDashboard/Time"){
-    total = 0;
-      value = value.split(":");
-      if (value[0]=="Auto"){
-        total= (+value[1])+135;
-      }
-      else{
-      total = +value[1];
-    };
-      total = total/150;
-      move(total);
-
+    else if(key=="/SmartDashboard/time"){
+        color(value);
+      move(value);
+      
     };
                                 
      }, true);
@@ -166,7 +158,25 @@ Auto:
     var elem = document.getElementById("myBar");
     elem.style.width = number + '%';
 
-}
+};
+  function color(number) {
+  var actual = number*1.5;
+  var totaled = 0;
+  if (actual> 134){
+  document.getElementById("myBar").style.backgroundColor ="white";
+  }
+  else{
+  totaled=actual*2;
+  if (totaled>255){
+  totaled=255;
+  };
+  var green = totaled;
+  var red = 255-totaled;
+  document.getElementById("myBar").style.backgroundColor ="rgb("+red+","+green+",0)";
+
+  };
+  
+  };
   </script>
   
 </body>
