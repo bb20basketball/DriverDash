@@ -103,6 +103,7 @@ Auto:
   
   <script>
   var width = 1;
+  var total = 0;
     attachSelectToSendableChooser("autonomous", "Choice")
     
   document.addEventListener("DOMContentLoaded", function(event) {
@@ -137,9 +138,22 @@ Auto:
     NetworkTables.addGlobalListener(function(key, value, isNew){
     console.log(value);
     if(key=="/SmartDashboard/PSI"){
-            gg1.refresh(((value-.5)*52.631));
+        gg1.refresh(((value-.5)*52.631));
             
-                    };
+                    }
+    else if(key=="/SmartDashboard/Time"){
+    total = 0;
+      value = value.split(":");
+      if (value[0]=="Auto"){
+        total= (+value[1])+135;
+      }
+      else{
+      total = +value[1];
+    };
+      total = total/150;
+      move(total);
+
+    };
                                 
      }, true);
   
@@ -148,10 +162,9 @@ Auto:
     
 
   });
-  function move() {
+  function move(number) {
     var elem = document.getElementById("myBar");
-    width= width+10;
-    elem.style.width = width + '%';
+    elem.style.width = number + '%';
 
 }
   </script>
