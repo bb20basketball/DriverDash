@@ -38,7 +38,7 @@
     position: absolute;
     width: 1%;
     height: 100%;
-    background-color: green;
+    background-color: #73AD21;
 }
 #gg1 {
     position: fixed;
@@ -47,14 +47,32 @@
     width: 300px;
     border: 30px solid red;
 }
-
-
+#autonomous {
+    position: fixed;
+    bottom: 380px;
+    right: 1560px;
+    border: 1px solid orange;
+    width: 250px;
+    height: 50px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+#AutoTitle {
+    position: fixed;
+    bottom: 380px;
+    right: 1820px;
+    font-size: 40px;
+    color: white;
+}
 
   </style>
 </head>
 
 <body>
-Autonomous: <select id="autonomous"></select>
+<div id="AutoTitle">
+Auto:
+</div>
+<select id="autonomous"></select>
 
 <div class="square">
   <div class="container">
@@ -62,10 +80,7 @@ Autonomous: <select id="autonomous"></select>
     
   </div>
   </div>
-<div>
-  <span id="robotIndicator"></span>
-  Robot: <span id="robotstate">Unknown state</span> @ <span id="robotAddress">disconnected</span>
-</div>
+
   <script src="raphael-2.1.4.min.js"></script>
   <script src="justgage.js"></script>
   <script src="/networktables/networktables.js"></script>
@@ -89,6 +104,7 @@ Autonomous: <select id="autonomous"></select>
   <script>
   var width = 1;
     attachSelectToSendableChooser("autonomous", "Choice")
+    
   document.addEventListener("DOMContentLoaded", function(event) {
 
     var dflt1 = {
@@ -110,11 +126,12 @@ Autonomous: <select id="autonomous"></select>
       valueFontColor: "white"
     });
 
-
+    NetworkTables.addRobotConnectionListener(function(onRobotConnection){
+    document.getElementById("gg1").style.border ="30px solid green";
+    }, true);
 
     NetworkTables.addWsConnectionListener(function(connected){
             console.log("Websocket connected: " + connected);
-            document.getElementById("gg1").style.border ="30px solid green";
         }, true);
                      
     NetworkTables.addGlobalListener(function(key, value, isNew){
