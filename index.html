@@ -20,9 +20,9 @@
   }
   body{
 
-      /*background-image: url(http://10.44.80.20:5800/?action=stream);*/
+      background-image: url(http://roborio-4480-frc.lan:5800/?action=stream);
 
-      background-image: url(https://raw.githubusercontent.com/bb20basketball/DriverDash/master/testActual.jpg);
+      /*background-image: url(https://raw.githubusercontent.com/bb20basketball/DriverDash/master/testActual.jpg);*/
     background-size: 2000px 1000px;
     background-repeat: no-repeat;
         }
@@ -47,6 +47,13 @@
     width: 300px;
     border: 30px solid red;
 }
+#birdseye {
+    position: fixed;
+    bottom: 560px;
+    right: 1500px;
+    
+
+}
 #autonomous {
     position: fixed;
     bottom: 380px;
@@ -64,7 +71,70 @@
     font-size: 40px;
     color: white;
 }
-
+#f1 {
+    position: fixed;
+    bottom: 965px;
+    right: 1700px;
+    width: 200px;
+    height: 20px;
+    background-color: green;
+}
+#f2 {
+    position: fixed;
+    bottom: 965px;
+    right: 1500px;
+    width: 200px;
+    height: 20px;
+    background-color: green;
+}
+#f3 {
+    position: fixed;
+    bottom: 545px;
+    right: 1700px;
+    width: 200px;
+    height: 20px;
+    background-color: green;
+}
+#f4 {
+    position: fixed;
+    bottom: 545px;
+    right: 1500px;
+    width: 200px;
+    height: 20px;
+    background-color: green;
+}
+#f5 {
+    position: fixed;
+    bottom: 765px;
+    right: 1900px;
+    width: 20px;
+    height: 200px;
+    background-color: green;
+}
+#f6 {
+    position: fixed;
+    bottom: 565px;
+    right: 1900px;
+    width: 20px;
+    height: 200px;
+    background-color: green;
+}
+#f7 {
+    position: fixed;
+    bottom: 765px;
+    right: 1480px;
+    width: 20px;
+    height: 200px;
+    background-color: green;
+}
+#f8 {
+    position: fixed;
+    bottom: 565px;
+    right: 1480px;
+    width: 20px;
+    height: 200px;
+    background-color: green;
+}
   </style>
 </head>
 
@@ -72,7 +142,7 @@
 <div id="AutoTitle">
 Auto:
 </div>
-<select id="autonomous"></select>
+<select id="autonomous" style="font-size:20px"></select>
 
 <div class="square">
   <div class="container">
@@ -95,19 +165,30 @@ Auto:
   </br>
       </br>
 
+<div id="f1"></div>
+<div id="f2"></div>
+<div id="f3"></div>
+<div id="f4"></div>
+<div id="f5"></div>
+<div id="f6"></div>
+<div id="f7"></div>
+<div id="f8"></div>
+<div id="birdseye">
+    <img src="black.jpg">
+    </div>
   <div id="myProgress">
   <div id="myBar"></div>
 </div>
-  <button onclick="move()">Sim me!</button>
+  
   
   
   <script>
   var width = 1;
   var total = 0;
-    attachSelectToSendableChooser("autonomous", "Choice")
+  
     
   document.addEventListener("DOMContentLoaded", function(event) {
-
+attachSelectToSendableChooser("#autonomous", "/SmartDashboard/Choice")
     var dflt1 = {
       min: 0,
       max: 120,
@@ -136,7 +217,7 @@ Auto:
         }, true);
                      
     NetworkTables.addGlobalListener(function(key, value, isNew){
-    console.log(value);
+    
     if(key=="/SmartDashboard/PSI"){
         gg1.refresh(((value-.5)*52.631));
             
@@ -144,6 +225,10 @@ Auto:
     else if(key=="/SmartDashboard/time"){
         color(value);
       move(value);
+      }
+    else if(key=="/SmartDashboard/F1"){
+        
+        distanceToColor(value, "f1");
       
     };
                                 
@@ -159,20 +244,40 @@ Auto:
     elem.style.width = number + '%';
 
 };
+function distanceToColor(number, one){
+    var totalNumber = number*4;
+    if (totalNumber > 254){
+        totalNumber = 255;
+};
+    var reds = Math.round(255-totalNumber);
+    var greens = Math.round(totalNumber);
+    console.log(reds);
+    document.getElementById("f1").style.backgroundColor = "rgb("+reds+","+greens+",0)";
+
+
+}
+
   function color(number) {
-  var actual = number*1.5;
-  var totaled = 0;
-  if (actual> 134){
-  document.getElementById("myBar").style.backgroundColor ="white";
-  }
-  else{
-  totaled=actual*2;
-  if (totaled>255){
-  totaled=255;
-  };
-  var green = totaled;
-  var red = 255-totaled;
-  document.getElementById("myBar").style.backgroundColor ="rgb("+red+","+green+",0)";
+      
+      var actual = number*1.5;
+      var totaled = 0;
+      
+      if (actual> 134){
+      document.getElementById("myBar").style.backgroundColor ="white";
+      }
+      
+      else{
+        
+        totaled=actual*2;
+      
+      if (totaled>255){
+        totaled=255;
+      };
+      
+      var green = totaled;
+      var red = 255-totaled;
+      
+      document.getElementById("myBar").style.backgroundColor ="rgb("+red+","+green+",0)";
 
   };
   
